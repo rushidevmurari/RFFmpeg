@@ -159,105 +159,12 @@
 
 
             <TableRow>
-                <LinearLayout
-                    android:layout_margin="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="2"
-                    >
 
-                    <ImageButton
-                        android:id="@+id/highreso"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:background="@color/transparent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/highreso" />
 
-                    <TextView
-                        android:textAlignment="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="High_Resolution"
-                        android:textColor="@color/black"/>
-                </LinearLayout>
 
-                <LinearLayout
-                    android:layout_margin="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="2"
-                    >
 
-                    <ImageButton
-                        android:id="@+id/videotogif"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:background="@color/transparent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/gggg" />
 
-                    <TextView
-                        android:textAlignment="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Video_To_Gif"
-                        android:textColor="@color/black"/>
-                </LinearLayout>
 
-                <LinearLayout
-                    android:layout_margin="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="2"
-                    >
-
-                    <ImageButton
-                        android:id="@+id/trimVideo"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:background="@color/transparent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/trimming" />
-
-                    <TextView
-                        android:textAlignment="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Trim_Video"
-                        android:textColor="@color/black"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_margin="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="2"
-                    >
-
-                    <ImageButton
-                        android:id="@+id/blurback"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:background="@color/transparent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/blur" />
-
-                    <TextView
-                        android:textAlignment="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Blur_Video"
-                        android:textColor="@color/black"/>
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_margin="10dp"
@@ -283,10 +190,6 @@
                         android:text="Vintage_Filter"
                         android:textColor="@color/black"/>
                 </LinearLayout>
-
-            </TableRow>
-            <TableRow>
-
 
                 <LinearLayout
                     android:layout_margin="10dp"
@@ -364,6 +267,12 @@
                         android:textColor="@color/black"/>
                 </LinearLayout>
 
+            </TableRow>
+            <TableRow>
+
+
+
+
                 <LinearLayout
                     android:layout_margin="10dp"
                     android:layout_width="wrap_content"
@@ -411,6 +320,56 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Black_White_Filter"
+                        android:textColor="@color/black"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_margin="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="2"
+                    >
+
+                    <ImageButton
+                        android:id="@+id/vflip"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:background="@color/transparent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/vflip" />
+
+                    <TextView
+                        android:textAlignment="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="VFlipVideo"
+                        android:textColor="@color/black"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_margin="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="2"
+                    >
+
+                    <ImageButton
+                        android:id="@+id/hflip"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:background="@color/transparent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/hflip" />
+
+                    <TextView
+                        android:textAlignment="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="HFlipVideo"
                         android:textColor="@color/black"/>
                 </LinearLayout>
 

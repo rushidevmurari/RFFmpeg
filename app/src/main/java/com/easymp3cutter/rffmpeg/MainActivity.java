@@ -41,7 +41,7 @@ import static com.arthenica.mobileffmpeg.Config.RETURN_CODE_SUCCESS;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ImageButton HighResolution,VideoToGif,TrimVideo,VideoBlur,CropVideo,FadeInFadeOut,RotateVideo90,RotateVideo180,VintageFilter,BlackWhite;
+    private ImageButton CropVideo,FadeInFadeOut,RotateVideo90,RotateVideo180,VintageFilter,BlackWhite,VFlipVideo,HFlipVideo;
     private Button selectVideo,selectAudio;
     private TextView tvLeft,tvRight;
     private ProgressDialog progressDialog;
@@ -73,16 +73,15 @@ public class MainActivity extends AppCompatActivity {
 
         selectVideo = (Button) findViewById(R.id.select);
 
-        HighResolution = (ImageButton) findViewById(R.id.highreso);
-        VideoToGif = (ImageButton) findViewById(R.id.videotogif);
-        TrimVideo = (ImageButton) findViewById(R.id.trimVideo);
-        VideoBlur = (ImageButton) findViewById(R.id.blurback);
+
         CropVideo = (ImageButton) findViewById(R.id.cropVideo);
         FadeInFadeOut = (ImageButton) findViewById(R.id.fadeinout);
         RotateVideo90 = (ImageButton) findViewById(R.id.rotate);
         RotateVideo180 = (ImageButton) findViewById(R.id.rotatett);
         VintageFilter = (ImageButton) findViewById(R.id.vintage);
         BlackWhite = (ImageButton) findViewById(R.id.blackwhite);
+        VFlipVideo = (ImageButton) findViewById(R.id.vflip);
+        HFlipVideo = (ImageButton) findViewById(R.id.hflip);
         videoView=(VideoView) findViewById(R.id.layout_movie_wrapper);
         imageView=(ImageView) findViewById(R.id.overlayimage);
 
@@ -108,71 +107,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        HighResolution.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(video_url != null)
-                {
-                    try {
-                        HighResolution(rangeSeekBar.getSelectedMinValue().intValue() * 1000,rangeSeekBar.getSelectedMaxValue().intValue() * 1000);
-                    }catch (Exception e){
-                        e.printStackTrace();
-                        Toast.makeText(MainActivity.this,e.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                }else
-                    Toast.makeText(MainActivity.this, "Please upload video", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        VideoToGif.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(video_url != null)
-                {
-                    try {
-                        VideoToGif(rangeSeekBar.getSelectedMinValue().intValue() * 1000,rangeSeekBar.getSelectedMaxValue().intValue() * 1000);
-
-                    }catch (Exception e){
-                        e.printStackTrace();
-                        Toast.makeText(MainActivity.this,e.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                }else
-                    Toast.makeText(MainActivity.this, "Please_Upload_Video", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        TrimVideo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (video_url != null)
-                {
-                    try {
-                        TrimVideo(rangeSeekBar.getSelectedMinValue().intValue() * 1000,rangeSeekBar.getSelectedMaxValue().intValue() * 1000);
-                    }catch (Exception e){
-                        e.printStackTrace();
-                        Toast.makeText(MainActivity.this, e.toString(),Toast.LENGTH_SHORT).show();
-                    }
-                }else
-                    Toast.makeText(MainActivity.this,"Please_Upload_Video",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        VideoBlur.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (video_url != null)
-                {
-                    try {
-                        VideoBlur(rangeSeekBar.getSelectedMinValue().intValue() * 1000,rangeSeekBar.getSelectedMaxValue().intValue() * 1000);
-
-                    }catch (Exception e){
-                        e.printStackTrace();
-                        Toast.makeText(MainActivity.this,e.toString(),Toast.LENGTH_SHORT).show();
-                    }
-                }else
-                    Toast.makeText(MainActivity.this,"Please_Upload_video", Toast.LENGTH_SHORT).show();
-            }
-        });
         CropVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -281,11 +215,40 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        VFlipVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (video_url != null)
+                {
+                    try {
+                        VFlipVideo(rangeSeekBar.getSelectedMinValue().intValue() * 1000,rangeSeekBar.getSelectedMaxValue().intValue() * 1000);
+                    }catch (Exception e)
+                    {
+                        e.printStackTrace();
+                        Toast.makeText(MainActivity.this,e.toString(),Toast.LENGTH_SHORT);
+                    }
 
+                }else
+                    Toast.makeText(MainActivity.this,"Please_Upload_Video",Toast.LENGTH_SHORT).show();
+            }
+        });
 
-
-
-
+        HFlipVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (video_url != null)
+                {
+                    try {
+                        HFlipVideo(rangeSeekBar.getSelectedMinValue().intValue() * 1000,rangeSeekBar.getSelectedMaxValue().intValue() * 1000);
+                    }catch (Exception e)
+                    {
+                        e.printStackTrace();
+                        Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT);
+                    }
+                }else
+                    Toast.makeText(MainActivity.this, "Please_Upload_Video", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         /*
@@ -297,15 +260,13 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPrepared(MediaPlayer mp) {
-                //get the durtion of the video
+
                 duration = mp.getDuration() / 1000;
-                //initially set the left TextView to "00:00:00"
+
                 tvLeft.setText("00:00:00");
-                //initially set the right Text-View to the video length
-                //the getTime() method returns a formatted string in hh:mm:ss
+
                 tvRight.setText(getTime(mp.getDuration() / 1000));
-                //this will run he ideo in loop i.e. the video won't stop
-                //when it reaches its duration
+
 
                 mp.setLooping(true);
 
@@ -320,18 +281,14 @@ public class MainActivity extends AppCompatActivity {
                 rangeSeekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
                     @Override
                     public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
-                        //we seek through the video when the user drags and adjusts the seekbar
                         videoView.seekTo((int) minValue * 1000);
 
-                        //changing the left and right TextView according to the minValue and maxValue
                         tvLeft.setText(getTime((int) bar.getSelectedMinValue()));
                         tvRight.setText(getTime((int) bar.getSelectedMaxValue()));
 
                     }
                 });
 
-                //this method changes the right TextView every 1 second as the video is being played
-                //It works same as a time counter we see in any Video Player
 
                 Toast.makeText(MainActivity.this,"Handler_Called",Toast.LENGTH_SHORT).show();
                 final Handler handler = new Handler();
@@ -349,234 +306,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-    private void VideoBlur(int startMs, int endMs) throws Exception {
-        progressDialog.show();
-        final String filePath;
-        String filePrefix = "VideoBlur";
-        String fileExtn = ".mp4";
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-        {
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(MediaStore.Video.Media.RELATIVE_PATH, "Movies/" + "Folder");
-            contentValues.put(MediaStore.Video.Media.TITLE, filePrefix+System.currentTimeMillis());
-            contentValues.put(MediaStore.Video.Media.DISPLAY_NAME, filePrefix+System.currentTimeMillis() +fileExtn);
-            contentValues.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
-            contentValues.put(MediaStore.Video.Media.DATE_ADDED, System.currentTimeMillis() /1000);
-            contentValues.put(MediaStore.Video.Media.DATE_TAKEN, System.currentTimeMillis());
-            Uri uri = getContentResolver().insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,contentValues);
-
-            File file = FileUtils.getFileFromUri(this, uri);
-            filePath = file.getAbsolutePath();
-        }else
-        {
-            File dest = new File(new File(app_folder), filePrefix + fileExtn);
-            int fileNo = 0;
-
-            while (dest.exists())
-            {
-                fileNo++;
-                dest = new File(new File(app_folder), filePrefix + fileNo + fileExtn);
-            }
-            filePath = dest.getAbsolutePath();
-        }
-
-        String exe;
-        exe="-y -i " +video_url+" -vf 'split[original][copy];[copy]scale=ih*16/9:-1,crop=h=iw*9/16,gblur=sigma=20[blurred];[blurred][original]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2' "+"-b:v 2097k -vcodec mpeg4 -crf 0 -preset superfast "+filePath;
-
-        //   String[] Command = {"-ss", "" + startMs / 1000, "-y", "-i", video_url, "-t", "" + (endMs - startMs) / 1000,"-vcodec", "mpeg4", "-b:v", "2097152", "-b:a", "48000", "-ac", "2", "-ar", "22050", filePath};
-
-        long executionId = FFmpeg.executeAsync(exe, new ExecuteCallback() {
-            @Override
-            public void apply(long executionId, int returnCode) {
-                if (returnCode == RETURN_CODE_SUCCESS)
-                {
-                    videoView.setVideoURI(Uri.parse(filePath));
-
-                    video_url = filePath;
-
-                    videoView.start();
-
-                    progressDialog.dismiss();
-                }else if (returnCode == RETURN_CODE_CANCEL)
-                {
-                    Log.i(Config.TAG, "Async Command Execution Cancel By User");
-                }else
-                {
-                    Log.i(Config.TAG,String.format("Async Command Execution Cancel By returnCode=%d",returnCode));
-                }
-            }
-        });
-
-    }
-    private void TrimVideo(int startMs, int endMs) throws Exception {
-
-        progressDialog.show();
-        final String filePath;
-        String filePrefix = "TrimVideo";
-        String fileExtn = ".mp4";
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-        {
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(MediaStore.Video.Media.RELATIVE_PATH, "Movies/" + "Folder");
-            contentValues.put(MediaStore.Video.Media.TITLE, filePrefix+System.currentTimeMillis());
-            contentValues.put(MediaStore.Video.Media.DISPLAY_NAME, filePrefix+System.currentTimeMillis()+fileExtn);
-            contentValues.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
-            contentValues.put(MediaStore.Video.Media.DATE_ADDED, System.currentTimeMillis() /1000);
-            contentValues.put(MediaStore.Video.Media.DATE_TAKEN, System.currentTimeMillis());
-            Uri uri = getContentResolver().insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, contentValues);
-
-            File file = FileUtils.getFileFromUri(this, uri);
-            filePath = file.getAbsolutePath();
-        }else {
-            File dest = new File(new File(app_folder), filePrefix + fileExtn);
-            int fileNo = 0;
-
-            while (dest.exists()) {
-                fileNo++;
-                dest = new File(new File(app_folder), filePrefix + fileNo + fileExtn);
-
-            }
-            filePath = dest.getAbsolutePath();
-
-        }
-
-        String[] Command = {"-ss", "" + startMs / 1000, "-y", "-i", video_url, "-t", "" + (endMs - startMs) / 1000,"-vcodec", "mpeg4", "-b:v", "2097152", "-b:a", "48000", "-ac", "2", "-ar", "22050", filePath};
-
-        //  cmd = "-y -i" +video_url+ " -ss -ac 2 -ar 22050 " +startMs/1000+ "-to" +(endMs - 1000) / 1000+ "-b:v 2097k -vcodec mpeg4 -crf 0 -preset superfast" +filePath;
-
-        long executionId = FFmpeg.executeAsync(Command, new ExecuteCallback() {
-            @Override
-            public void apply(long executionId, int returnCode) {
-                if (returnCode == RETURN_CODE_SUCCESS)
-                {
-                    videoView.setVideoURI(Uri.parse(filePath));
-
-                    video_url = filePath;
-
-                    videoView.start();
-
-                    progressDialog.dismiss();
-                }else if (returnCode == RETURN_CODE_CANCEL)
-                {
-                    Log.i(Config.TAG,"Async Command Execution Cancel By User");
-                }else
-                {
-                    Log.i(Config.TAG,String.format("Async Command Execution Cancel By returnCode=%d",returnCode));
-                }
-            }
-        });
-    }
-
-
-    private void VideoToGif(int startMs, int endMs) throws Exception {
-
-        progressDialog.show();
-        final String filePath;
-        String filePrefix = "VideoToGif";
-        String fileExtn = ".gif";
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-        {
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/" + "Folder");
-            contentValues.put(MediaStore.Images.Media.TITLE, filePrefix+System.currentTimeMillis());
-            contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, filePrefix+System.currentTimeMillis()+fileExtn);
-            contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/gif");
-            contentValues.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() /1000);
-            contentValues.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
-            Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-
-            File file = FileUtils.getFileFromUri(this,uri);
-            filePath = file.getAbsolutePath();
-        }else {
-            File dest = new File(new File(app_folder), filePrefix + fileExtn);
-            int fileNo = 0;
-
-            while (dest.exists()) {
-                fileNo++;
-                dest = new File(new File(app_folder), filePrefix + fileNo + fileExtn);
-            }
-            filePath = dest.getAbsolutePath();
-        }
-        String cmd;
-
-
-        cmd ="-y -i  " +video_url+" -vf scale=512:-1 -an -ss 00:00:03 -to 00:00:05 "+" -vcodec gif -crf 0 -preset superfast " +filePath;
-
-
-        long executionId = FFmpeg.executeAsync(cmd, new ExecuteCallback() {
-            @Override
-            public void apply(long executionId, int returnCode) {
-                if (returnCode == RETURN_CODE_SUCCESS)
-                {
-                    imageView.setImageURI(Uri.parse(filePath));
-
-                    image_url = filePath;
-
-                    videoView.start();
-
-                    progressDialog.dismiss();
-                }else if (returnCode == RETURN_CODE_CANCEL)
-                {
-                    Log.i(Config.TAG,"Async Command Execution Cancel By User");
-                } else
-                {
-                    Log.i(Config.TAG, String.format("Async Command Execution Failed With returnCode=%d",returnCode));
-                }
-            }
-        });
-    }
-
-    private void HighResolution(int startsMs, int ensMs) throws Exception {
-
-        progressDialog.show();
-        final String filePath;
-        String filePrefix = "HighResolution";
-        String fileExtn = ".mp4";
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(MediaStore.Video.Media.RELATIVE_PATH, "Movies/" + "Folder");
-            contentValues.put(MediaStore.Video.Media.TITLE, filePrefix+System.currentTimeMillis());
-            contentValues.put(MediaStore.Video.Media.DISPLAY_NAME, filePrefix+System.currentTimeMillis()+fileExtn);
-            contentValues.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
-            contentValues.put(MediaStore.Video.Media.DATE_ADDED, System.currentTimeMillis() /1000);
-            contentValues.put(MediaStore.Video.Media.DATE_TAKEN, System.currentTimeMillis());
-            Uri uri = getContentResolver().insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, contentValues);
-
-            File file = FileUtils.getFileFromUri(this,uri);
-            filePath = file.getAbsolutePath();
-        }else {
-            File dest = new File(new File(app_folder), filePrefix + fileExtn);
-            int fileNo = 0;
-
-            while (dest.exists())
-            {
-                dest = new File(new File(app_folder), filePrefix + fileNo + fileExtn);
-            }
-            filePath = dest.getAbsolutePath();
-        }
-        String cmd;
-        cmd = " -y -i " +video_url+ " -vf scale=1280:-1 -c:v "+"-b:v -vcodec mpeg4 -crf 0 -preset superfast "+filePath;
-
-        long executionId = FFmpeg.executeAsync(cmd, new ExecuteCallback() {
-            @Override
-            public void apply(long executionId, int returnCode) {
-                if (returnCode == RETURN_CODE_SUCCESS)
-                {
-                    videoView.setVideoURI(Uri.parse(filePath));
-
-                    video_url = filePath;
-
-                    videoView.start();
-                    progressDialog.dismiss();
-                }else if (returnCode == RETURN_CODE_CANCEL) {
-                    Log.i(Config.TAG, "Async command execution cancelled by user.");
-                } else {
-                    Log.i(Config.TAG, String.format("Async command execution failed with returnCode=%d.", returnCode));
-                }
-            }
-        });
-    }
 
     private void CropVideo(int startMs, int endMs) throws Exception {
 
@@ -671,7 +400,7 @@ public class MainActivity extends AppCompatActivity {
             filePath = dest.getAbsolutePath();
         }
 
-        String[] cmd = {"-y", "-i", video_url, "-acodec", "copy", "-vf", "fade=t=in:st=0:d=5,fade=t=out:st=" + (duration - 5) + ":d=5", filePath};
+        String[] cmd = {"-y", "-i", video_url, "-acodec", "copy", "-vf", "fade=t=in:st=0:d=5,fade=t=out:st=" + (duration - 5) + ":d=5","-vcodec", "mpeg4", "-b:v", "2097152", "-b:a", "48000", "-ac", "2", "-ar", "22050", filePath};
 
 
 
@@ -786,7 +515,7 @@ public class MainActivity extends AppCompatActivity {
         }
         String cmd;
 
-        cmd="-y -i " +video_url+" -vf transpose=2,transpose=2"+" -vcodec mpeg4 -crf 0 -preset superfast "+filePath;
+        cmd="-y -i " +video_url+" -vf transpose=2,transpose=2 -b:v 2097k -b:a 128k -ac 2 -ar 22050"+" -vcodec mpeg4 -crf 0 -preset superfast "+filePath;
 
         long executionId = FFmpeg.executeAsync(cmd, new ExecuteCallback() {
             @Override
@@ -917,6 +646,117 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void VFlipVideo(int startMs, int endMs) throws Exception {
+        progressDialog.show();
+        final String filePath;
+        String filePrefix = "VFlipVideo";
+        String fileExtn = ".mp4";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+        {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(MediaStore.Video.Media.RELATIVE_PATH, "Movies/" + "Folder");
+            contentValues.put(MediaStore.Video.Media.TITLE, filePrefix+System.currentTimeMillis());
+            contentValues.put(MediaStore.Video.Media.DISPLAY_NAME, filePrefix+System.currentTimeMillis() +fileExtn);
+            contentValues.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
+            contentValues.put(MediaStore.Video.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
+            contentValues.put(MediaStore.Video.Media.DATE_TAKEN, System.currentTimeMillis());
+            Uri uri = getContentResolver().insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,contentValues);
+
+            File file = FileUtils.getFileFromUri(this,uri);
+
+            filePath = file.getAbsolutePath();
+        }else
+        {
+            File dest = new File(new File(app_folder), filePrefix + fileExtn);
+            int fileNo = 0;
+
+            while (dest.exists())
+            {
+                fileNo++;
+                dest = new File(new File(app_folder), filePrefix + fileNo + fileExtn);
+            }
+            filePath = dest.getAbsolutePath();
+        }
+        String cmd;
+        cmd="-y -i " +video_url+" -vf vflip -b:v 2097k -b:a 128k -ac 2 -ar 22050 "+" -vcodec mpeg4 -crf 0 -preset superfast "+filePath;
+
+        long executionId = FFmpeg.executeAsync(cmd, new ExecuteCallback() {
+            @Override
+            public void apply(long executionId, int returnCode) {
+                if (returnCode == RETURN_CODE_SUCCESS)
+                {
+                    videoView.setVideoURI(Uri.parse(filePath));
+                    video_url = filePath;
+                    videoView.start();
+                    progressDialog.dismiss();
+                }else if (returnCode == RETURN_CODE_CANCEL)
+                {
+                    Log.i(Config.TAG,"Async Command Execution Cancel By User");
+                }else
+                {
+                    Log.i(Config.TAG,String.format("Async Command Execution Cancel By returnCode=%d",returnCode));
+                }
+            }
+        });
+    }
+
+    private void HFlipVideo(int startMs, int endMs) throws Exception {
+        progressDialog.show();
+        final String filePath;
+        String filePrefix = "HFlipVideo";
+        String fileExtn = ".mp4";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+        {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(MediaStore.Video.Media.RELATIVE_PATH, "Movies/" + "Folder");
+            contentValues.put(MediaStore.Video.Media.TITLE, filePrefix+System.currentTimeMillis());
+            contentValues.put(MediaStore.Video.Media.DISPLAY_NAME, filePrefix+System.currentTimeMillis() +fileExtn);
+            contentValues.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
+            contentValues.put(MediaStore.Video.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
+            contentValues.put(MediaStore.Video.Media.DATE_TAKEN, System.currentTimeMillis());
+            Uri uri = getContentResolver().insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,contentValues);
+
+            File file = FileUtils.getFileFromUri(this,uri);
+
+            filePath = file.getAbsolutePath();
+        }else
+        {
+            File dest = new File(new File(app_folder), filePrefix + fileExtn);
+            int fileNo = 0;
+
+            while (dest.exists())
+            {
+                fileNo++;
+                dest = new File(new File(app_folder),filePrefix + fileNo + fileExtn);
+            }
+            filePath = dest.getAbsolutePath();
+        }
+        String cmd;
+
+        cmd="-y -i " +video_url+" -vf hflip -b:v 2097k -b:a 128k -ac 2 -ar 22050 "+" -vcodec mpeg4 -crf 0 -preset superfast "+filePath;
+
+        long executionId = FFmpeg.executeAsync(cmd, new ExecuteCallback() {
+            @Override
+            public void apply(long executionId, int returnCode) {
+                if (returnCode == RETURN_CODE_SUCCESS)
+                {
+                    videoView.setVideoURI(Uri.parse(filePath));
+                    video_url = filePath;
+                    videoView.start();
+                    progressDialog.dismiss();
+                }else if (returnCode == RETURN_CODE_CANCEL)
+                {
+                    Log.i(Config.TAG,"Async Command Execution Cancel By User");
+
+                }else
+                {
+                    Log.i(Config.TAG,String.format("Async Command Execution Cancel By returnCode=%d",returnCode));
+                }
+            }
+        });
+
     }
 
     //Overriding the method onActivityResult() to get the video Uri form intent.
