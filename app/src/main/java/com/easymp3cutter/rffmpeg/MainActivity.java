@@ -41,8 +41,8 @@ import static com.arthenica.mobileffmpeg.Config.RETURN_CODE_SUCCESS;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ImageButton CropVideo,FadeInFadeOut,RotateVideo90,RotateVideo180,VintageFilter,BlackWhite,VFlipVideo,HFlipVideo;
-    private Button selectVideo,selectAudio;
+    private ImageButton CropVideo,FadeInFadeOut,RotateVideo90,RotateVideo180,RotateVideo270,VintageFilter,BlackWhite,VFlipVideo,HFlipVideo;
+    private Button selectVideo,selectImage;
     private TextView tvLeft,tvRight;
     private ProgressDialog progressDialog;
     private int duration;
@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         FadeInFadeOut = (ImageButton) findViewById(R.id.fadeinout);
         RotateVideo90 = (ImageButton) findViewById(R.id.rotate);
         RotateVideo180 = (ImageButton) findViewById(R.id.rotatett);
+        RotateVideo270 = (ImageButton) findViewById(R.id.rotate280);
         VintageFilter = (ImageButton) findViewById(R.id.vintage);
         BlackWhite = (ImageButton) findViewById(R.id.blackwhite);
         VFlipVideo = (ImageButton) findViewById(R.id.vflip);
@@ -105,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, 123);
             }
         });
+
 
 
         CropVideo.setOnClickListener(new View.OnClickListener() {
@@ -178,6 +180,22 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }else
                     Toast.makeText(MainActivity.this,"Please_Upload_Video", Toast.LENGTH_SHORT).show();
+            }
+        });
+        RotateVideo270.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (video_url != null)
+                {
+                    try{
+                        RotateVideo270(rangeSeekBar.getSelectedMinValue().intValue() * 1000,rangeSeekBar.getSelectedMaxValue().intValue() * 1000);
+                    }catch (Exception e)
+                    {
+                        e.printStackTrace();
+                        Toast.makeText(MainActivity.this,e.toString(),Toast.LENGTH_SHORT);
+                    }
+                }else
+                    Toast.makeText(MainActivity.this,"Please_Upload_Video",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -304,9 +322,65 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 
+    private void RotateVideo270(int startMs, int endMs) throws Exception {
+        progressDialog.show();
+        final String filePath;
+        String filePrefix = "RotateVideo270";
+        String fileExtn = ".mp4";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+        {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(MediaStore.Video.Media.RELATIVE_PATH, "Movies/" + "Folder");
+            contentValues.put(MediaStore.Video.Media.TITLE, filePrefix+System.currentTimeMillis());
+            contentValues.put(MediaStore.Video.Media.DISPLAY_NAME, filePrefix+System.currentTimeMillis() +fileExtn);
+            contentValues.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
+            contentValues.put(MediaStore.Video.Media.DATE_ADDED, System.currentTimeMillis() /1000);
+            contentValues.put(MediaStore.Video.Media.DATE_TAKEN, System.currentTimeMillis());
+            Uri uri = getContentResolver().insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, contentValues);
 
+            File file = FileUtils.getFileFromUri(this,uri);
+            filePath = file.getAbsolutePath();
+        }else
+        {
+            File dest = new File(new File(app_folder), filePrefix + fileExtn);
+            int fileNo = 0;
+
+            while (dest.exists())
+            {
+                fileNo++;
+                dest = new File(new File(app_folder), filePrefix + fileNo + fileExtn);
+            }
+            filePath = dest.getAbsolutePath();
+        }
+        String cmd;
+
+        cmd="-y -i " +video_url+" -vf transpose=1,transpose=1,transpose=1 -b:v 2097k -b:a 128k -ac 2 -ar 22050"+" -vcodec mpeg4 -crf 0 -preset superfast "+filePath;
+
+        long executionId = FFmpeg.executeAsync(cmd, new ExecuteCallback() {
+            @Override
+            public void apply(long executionId, int returnCode) {
+                if (returnCode == RETURN_CODE_SUCCESS)
+                {
+                    videoView.setVideoURI(Uri.parse(filePath));
+                    video_url = filePath;
+                    videoView.start();
+                    progressDialog.dismiss();
+                }else if (returnCode == RETURN_CODE_CANCEL)
+                {
+                    Log.i(Config.TAG,"Async Command Execution Cancel By User");
+                }else
+                {
+                    Log.i(Config.TAG,String.format("Async Command Execution Cancel By returnCode=%d.",returnCode));
+                }
+            }
+        });
+
+    }
+    
     private void CropVideo(int startMs, int endMs) throws Exception {
 
         progressDialog.show();

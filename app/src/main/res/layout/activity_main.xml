@@ -147,6 +147,16 @@
                 />
         </LinearLayout>
 
+        <ScrollView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/dp4"
+            android:paddingLeft="@dimen/dp4"
+            android:paddingRight="@dimen/dp4"
+            android:paddingTop="@dimen/dp4"
+            tools:context=".EditEntry" >
         <TableLayout
             android:id="@+id/footer"
             android:layout_width="match_parent"
@@ -189,7 +199,10 @@
                         android:layout_height="wrap_content"
                         android:text="Vintage_Filter"
                         android:textColor="@color/black"/>
+
+
                 </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_margin="10dp"
@@ -266,6 +279,35 @@
                         android:text="Rotate_Video_90(degree)"
                         android:textColor="@color/black"/>
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_margin="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="2"
+                    >
+
+                    <ImageButton
+                        android:id="@+id/rotate280"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:background="@color/transparent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/degrees" />
+
+                    <TextView
+                        android:textAlignment="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Rotate_Video_270(degree)"
+                        android:textColor="@color/black"/>
+                </LinearLayout>
+
+
+
+
 
             </TableRow>
             <TableRow>
@@ -374,10 +416,14 @@
                 </LinearLayout>
 
 
+
+
             </TableRow>
 
 
         </TableLayout>
+        </ScrollView>
+
     </LinearLayout>
 
 
